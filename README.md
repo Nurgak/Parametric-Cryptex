@@ -14,11 +14,11 @@ More images under `/Images`.
 
 The parametric cryptex is written in JavaScript for [OpenJSCAD](http://openjscad.org/), the `.stl` files can be generated with the same tool.
 
-**[To open the Parametric Cryptex in the online OpenJSCAD preview click here](#)**
+**[To open the Parametric Cryptex in the online OpenJSCAD preview click here](http://openjscad.org/#https://raw.githubusercontent.com/Nurgak/Parametric-Cryptex/master/parametric_cryptex.jscad)**
 
 ![Parametric Cryptex](Images/parametric_cryptex_openjscad.jpg)
 
-The easiest way to see the effects of changing a parameter is to try to [change them in the online OpenJSCAD tool](#). The customasable parameters are:
+The easiest way to see the effects of changing a parameter is to try to [change them in the online OpenJSCAD tool](http://openjscad.org/#https://raw.githubusercontent.com/Nurgak/Parametric-Cryptex/master/parametric_cryptex.jscad). The customasable parameters are:
 
 * Inner diameter: diameter of the inner space, this is useful for when the size item to be stored is known
 * Inner height: height of the inner space
