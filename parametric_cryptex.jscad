@@ -2,11 +2,12 @@
  *
  * Title:       Parametric Cryptex
  * File:        parametric_cryptex.jscad
- * Version:     v0.1
- * Date:        2016-02-01
+ * Version:     v0.2
+ * Date:        2016-09-17
  * Author:      Karl Kangur <karl.kangur@gmail.com>
+ * Updated:		jneilliii
  * Licence:     CC-BY
- * Website:     https://github.com/Nurgak/Parametric-Cryptex
+ * Website:     https://github.com/jneilliii/Parametric-Cryptex
  *
  ***************************************************************************************/
 
@@ -51,7 +52,7 @@ function getParameterDefinitions()
       type: 'choice',
       values: [16, 32, 64],
       captions: ["Coarse", "Normal", "Fine"],
-      initial: 64
+      initial: 16
     },
     {
       name: 'lock_spacing',
@@ -69,13 +70,13 @@ function getParameterDefinitions()
       name: 'lock_margin',
       caption: 'Lock margin (mm):',
       type: 'float',
-      initial: 0.8
+      initial: 0.4
     },
     {
       name: 'code_margin',
       caption: 'Code margin (mm):',
       type: 'float',
-      initial: 0.5
+      initial: 0.25
     },
     {
       name: 'groove_angle',
@@ -87,13 +88,25 @@ function getParameterDefinitions()
       name: 'groove_error',
       caption: 'Groove error (%):',
       type: 'float',
-      initial: 20
+      initial: 5
     },
     {
       name: 'groove_margin',
       caption: 'Groove margin (mm):',
       type: 'float',
       initial: 0.5
+    },
+    {
+      name: 'end_overlap',
+      caption: 'End overlap (mm):',
+      type: 'float',
+      initial: 2.5
+    },
+    {
+      name: 'code_extra',
+      caption: 'Code extra thickness (mm):',
+      type: 'float',
+      initial: 1
     },
     {
       name: 'generate_part',
@@ -123,6 +136,8 @@ function main(params)
   var groove_angle = params.groove_angle;
   var groove_error = params.groove_error;
   var groove_margin = params.groove_margin;
+  var end_overlap = params.end_overlap;
+  var code_extra = params.code_extra;
 
   var parts = {
     FULL: 0,
@@ -155,7 +170,7 @@ function main(params)
   // ################################################## BASE
 
   // Build the base
-  var base_bottom_radius = inner_radius + wall_width + lid_margin + wall_width + lock_margin + lock_width + code_margin + code_width;
+  var base_bottom_radius = inner_radius + wall_width + lid_margin + wall_width + lock_margin + lock_width + code_margin + code_width + end_overlap + code_extra;
   var base_bottom = cylinder({r: base_bottom_radius, h: sides_height, center: [true, true, false], fn: number_of_sides});
 
   // Make a chamfer on the bottom
@@ -281,7 +296,7 @@ function main(params)
 
   // ################################################## LID
 
-  var lid_top_radius = inner_radius + wall_width + lid_margin + wall_width + lock_margin + lock_width + code_margin + code_width;
+  var lid_top_radius = inner_radius + wall_width + lid_margin + wall_width + lock_margin + lock_width + code_margin + code_width + end_overlap + code_extra;
   var lid_top = cylinder({r: lid_top_radius, h: sides_height, center: [true, true, false], fn: number_of_sides});
 
     // Make a chamfer on the top
@@ -453,7 +468,7 @@ function main(params)
   // ################################################## CODE
 
   var code_ring_inner_radius = inner_radius + wall_width + lid_margin + wall_width + lock_margin + lock_width + code_margin;
-  var code_ring_outer_radius = inner_radius + wall_width + lid_margin + wall_width + lock_margin + lock_width + code_margin + code_width;
+  var code_ring_outer_radius = inner_radius + wall_width + lid_margin + wall_width + lock_margin + lock_width + code_margin + code_width + code_extra;
   var code_ring_height = (inner_height - 2 * sides_hole_depth - lock_spacing) / number_of_locks;
 
   var code_ring_chamfer = 1;
@@ -514,17 +529,11 @@ function main(params)
   }
   else
   {
-    return union(
-      base,
-      translate([0, 0, inner_height + sides_hole_depth], rotate([180, 0, 0], lid)),
-      translate([0, 0, sides_height], lock_ring),
-      translate([0, 0, sides_height], code_ring),
-      translate([0, 0, sides_height + lock_ring_height], lock_ring),
-      translate([0, 0, sides_height + code_ring_height], code_ring),
-      translate([0, 0, sides_height + 2 * lock_ring_height], lock_ring),
-      translate([0, 0, sides_height + 2 * code_ring_height], code_ring),
-      translate([0, 0, sides_height + 3 * lock_ring_height], lock_ring),
-      translate([0, 0, sides_height + 3 * code_ring_height], code_ring)
-      );
+    var lstLocks = [base,translate([0, 0, inner_height + sides_hole_depth], rotate([180, 0, 0], lid))];
+    for(var i = 0; i < number_of_locks; i++) {
+        lstLocks.push(translate([0, 0, sides_height + i * lock_ring_height], lock_ring));
+		lstLocks.push(translate([0, 0, sides_height + i * code_ring_height], code_ring));
+	};
+    return union(lstLocks);
   }
 }
