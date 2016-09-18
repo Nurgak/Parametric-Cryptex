@@ -10,15 +10,15 @@ The parametric cryptex is made of 4 parts: base, lid, code ring and lock ring. T
 
 More images under `/Images`.
 
-## Parametrisation
+## Parameterization
 
 The parametric cryptex is written in JavaScript for [OpenJSCAD](http://openjscad.org/), the `.stl` files can be generated with the same tool.
 
-**[To open the Parametric Cryptex in the online OpenJSCAD preview click here](http://openjscad.org/#https://raw.githubusercontent.com/Nurgak/Parametric-Cryptex/master/parametric_cryptex.jscad)**
+**[To open the Parametric Cryptex in the online OpenJSCAD preview click here](http://openjscad.org/#https://raw.githubusercontent.com/jneilliii/Parametric-Cryptex/master/parametric_cryptex.jscad)**
 
 ![Parametric Cryptex](Images/parametric_cryptex_openjscad.jpg)
 
-The easiest way to see the effects of changing a parameter is to try to [change them in the online OpenJSCAD tool](http://openjscad.org/#https://raw.githubusercontent.com/Nurgak/Parametric-Cryptex/master/parametric_cryptex.jscad). The customasable parameters are:
+The easiest way to see the effects of changing a parameter is to try to [change them in the online OpenJSCAD tool](http://openjscad.org/#https://raw.githubusercontent.com/jneilliii/Parametric-Cryptex/master/parametric_cryptex.jscad). The customasable parameters are:
 
 * Inner diameter: diameter of the inner space, this is useful for when the size item to be stored is known
 * Inner height: height of the inner space
@@ -31,11 +31,21 @@ The easiest way to see the effects of changing a parameter is to try to [change 
 * Lock margin: margin between lock ring and the lid
 * Code margin: margin between the lock ring and the code ring
 * Groove angle: angle of the groove for the lid to slide in the base, 45 degrees is a good default value
-* Groove error: it can be troublesome to open the lid if the groove angle inside the lock ring is the same as in the lid, the "error" makes the grooves inside the lock ring a bit larger (in proportion to the _Groove angle_ setting) so the code rings do not have to be _exactly_ aligned with the groove.
+* Groove error: it can be troublesome to open the lid if the groove angle inside the lock ring is the same as in the lid, the "error" makes the grooves inside the lock ring a bit larger (in proportion to the _Groove angle_ setting) so the code rings do not have to be _exactly_ aligned with the groove
 * Groove margin: margin between the base and lid for the groove, a large value makes the lid wobble inside the base
+* End overlap: extra length to make ends stick out beyond code ring, set to 0 to make ends flush like original jscad file
+* Code extra thickness: additional radius length added to code ring to allow thickening up the ring for optimal printing on your printer
 * Generate: generate different parts of the parametric cryptex so that the `.stl` files could be generated and printed separately
 
 # Version log
+
+## 0.2 (2016-09-17)
+
+* Added parameters end_overlap and code_extra
+* Updated "Full model" return union to utilize for loop based on Number of locks parameter instead of hard coding only 4 rings as in original jscad
+* Made default Roudness course for quicker initial load times
+* Minor adjustments to other parameters that worked best for my printer
+* Updated jscad screenshot and added "_v20" stl file
 
 ## 0.1 (2016-02-01)
 
